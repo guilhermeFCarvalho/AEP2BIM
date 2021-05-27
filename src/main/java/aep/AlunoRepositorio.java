@@ -12,6 +12,12 @@ public class AlunoRepositorio {
 	}
 	private void abrirConexao() {
 		try {
+			try {
+                conexao = DriverManager.getConnection("jdbc:h2:~/bd-aep","sa","");
+                conexao.close();
+            } catch (Exception e) {
+                System.out.println("Opa, acho que o banco já estava criado...");
+            }
 			conexao = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/bd-aep","sa","");			
 			PreparedStatement psCreateTable = conexao.prepareStatement("create table if not exists aluno ("
 					+ "nome varchar(255) not null, "
@@ -19,7 +25,7 @@ public class AlunoRepositorio {
 					+ ")");
 			psCreateTable.execute();
 			psCreateTable.close();
-			System.out.println("Foi.");
+			System.out.println("Banco criado.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -27,11 +33,12 @@ public class AlunoRepositorio {
 	public void inserir(Aluno novo) {
 		try {
 			PreparedStatement psInsert = conexao.prepareStatement(
-					"insert into alunos(nome, matricula) values (?, ?)");
+					"insert into aluno(nome, matricula) values (?, ?)");
 			psInsert.setString(1, novo.getNome());
-			psInsert.setString(1, novo.getMatricula());
+			psInsert.setString(2, novo.getMatricula());
 			psInsert.execute();
 			psInsert.close();
+			System.out.println("Insert realizado");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
