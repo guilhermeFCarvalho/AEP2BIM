@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AlunoRepositorio {
 	private Connection conexao;
@@ -58,4 +59,33 @@ public class AlunoRepositorio {
 			e.printStackTrace();
 		}
 	}
+	
+	public void atualizarNome(Aluno aluno) {
+		try {
+			PreparedStatement psUpdate = conexao.prepareStatement("update aluno set nome = ? where idAluno = ?");
+			psUpdate.setString(1, aluno.getNome());
+			psUpdate.setInt(2, aluno.getIdAluno());
+			psUpdate.execute();
+			psUpdate.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void atualizarMatricula(Aluno aluno) {
+		try {
+			PreparedStatement psUpdate = conexao.prepareStatement("update aluno set matricula = ? where idAluno = ?");
+			psUpdate.setString(1, aluno.getMatricula());
+			psUpdate.setInt(2, aluno.getIdAluno());
+			psUpdate.execute();
+			psUpdate.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Aluno> getTodos(){
+		return null;
+	}
 }
+
