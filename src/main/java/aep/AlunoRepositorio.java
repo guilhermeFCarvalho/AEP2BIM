@@ -3,8 +3,12 @@ package aep;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class AlunoRepositorio {
 	private Connection conexao;
@@ -22,8 +26,8 @@ public class AlunoRepositorio {
 			conexao = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/bd-aep","sa","");			
 			PreparedStatement psCreateTable = conexao.prepareStatement("create table if not exists aluno ("
 					+ "nome varchar(255) not null, "
-					+ "matricula varchar(255) not null"
-					+ "idAluno number not null"
+					+ "matricula varchar(255) not null,"
+					+ "idAluno number not null,"
 					+ "primary key(idAluno)"
 					+ ")");
 			psCreateTable.execute();
@@ -54,6 +58,7 @@ public class AlunoRepositorio {
 			PreparedStatement psDelete =  conexao.prepareStatement(
 					"delete from aluno where idAluno = ? ");
 			psDelete.setInt(1, aluno.getIdAluno());
+			System.out.println("Tabela deletada");
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -67,6 +72,7 @@ public class AlunoRepositorio {
 			psUpdate.setInt(2, aluno.getIdAluno());
 			psUpdate.execute();
 			psUpdate.close();
+			System.out.println("Nome alterado");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -79,13 +85,32 @@ public class AlunoRepositorio {
 			psUpdate.setInt(2, aluno.getIdAluno());
 			psUpdate.execute();
 			psUpdate.close();
+			System.out.println("Matricula atualizada");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public List<Aluno> getTodos(){
-		return null;
+		List<Aluno> todos =  new ArrayList<>();
+		try {
+			PreparedStatement psSelect = conexao.prepareStatement(
+					"select idAluno, nome, matricula from aluno");
+			ResultSet rsTodos = psSelect.executeQuery();
+			while (rsTodos.next()) {
+				Aluno selecionado = new Aluno(
+						rsTodos.getInt("idAluno"), 
+						rsTodos.getString("nome"), 
+						rsTodos.getString("matricula"));
+						todos.add(selecionado);
+			}
+			psSelect.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return todos;
 	}
+	
+	
 }
 
