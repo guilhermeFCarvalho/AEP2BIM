@@ -28,6 +28,8 @@ public class AlunoRepositorio {
 					+ "nome varchar(255) not null, "
 					+ "matricula varchar(255) not null,"
 					+ "idAluno number not null,"
+					+ "totalFaltas number,"
+					+ "presente boolean"
 					+ "primary key(idAluno)"
 					+ ")");
 			psCreateTable.execute();
@@ -40,10 +42,12 @@ public class AlunoRepositorio {
 	public void inserir(Aluno novo) {
 		try {
 			PreparedStatement psInsert = conexao.prepareStatement(
-					"insert into aluno(idAluno, nome, matricula) values (?,?, ?)");
+					"insert into aluno(idAluno, nome, matricula, totalFaltas, presenca) values (?, ?, ?, ?, ?)");
 			psInsert.setInt(1, novo.getIdAluno());
 			psInsert.setString(2, novo.getNome());
 			psInsert.setString(3, novo.getMatricula());
+			psInsert.setInt(4, novo.getFalta());
+			psInsert.setBoolean(5, novo.isPresente());
 			psInsert.execute();
 			psInsert.close();
 			System.out.println("Insert realizado");
@@ -91,11 +95,24 @@ public class AlunoRepositorio {
 		}
 	}
 	
+	public void atualizar(Aluno aluno) {
+		try {
+			PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set nome = ?, matricula = ?, totalFaltas = ?, presente = ? where idAluno = ?");
+			psUpdate.setString(1, aluno.getNome());
+			psUpdate.setString(2, aluno.getMatricula());
+			psUpdate.setInt(3, aluno.getFalta());
+			psUpdate.setInt(4, aluno.getIdAluno());
+			psUpdate.setBoolean(5, aluno.isPresente());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public List<Aluno> getTodos(){
 		List<Aluno> todos =  new ArrayList<>();
 		try {
 			PreparedStatement psSelect = conexao.prepareStatement(
-					"select idAluno, nome, matricula from aluno");
+					"select idAluno, nome, matricula, presente from aluno");
 			ResultSet rsTodos = psSelect.executeQuery();
 			while (rsTodos.next()) {
 				Aluno selecionado = new Aluno(
@@ -111,6 +128,12 @@ public class AlunoRepositorio {
 		return todos;
 	}
 	
+	public void darFalta(Aluno aluno) {
+		System.out.println("Deseja dar falta para o aluno? **fazer verificação");
+		aluno.setPresenca(false);
+		aluno.setFalta();
+		
+	}
 	
 }
 

@@ -5,8 +5,8 @@ public class Aluno {
 	private int idAluno;
 	private String nome;
 	private String matricula;
-	private int falta;
-	private boolean pres = true;
+	private int falta = 0;
+	private boolean presente =  true;
 	
 	public Aluno(int idAluno, String nome, String matricula) {
 		this.idAluno = idAluno;
@@ -14,13 +14,7 @@ public class Aluno {
 		this.matricula = matricula;
 	}
 	
-	public boolean getPres() {
-		return pres;
-	}
 	
-	public void setPres(boolean pres) {
-		this.pres = pres;
-	}
 	
 	public int getIdAluno() {
 		return idAluno;
@@ -34,5 +28,33 @@ public class Aluno {
 	public String getMatricula() {
 		return matricula;
 	}
+
+
+
+	public boolean isPresente() {
+		return presente;
+	}
+
+
+
+	public void setPresente(boolean presenca) {
+		this.presente = presenca;
+	}
+
+
+
+	public int getFalta() {
+		return falta;
+	}
+
+
+
+	public void setFalta() {
+		this.falta++;
+	}
+
+
+
+	
 
 }
