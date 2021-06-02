@@ -29,7 +29,7 @@ public class AlunoRepositorio {
 					+ "matricula varchar(255) not null,"
 					+ "idAluno number not null,"
 					+ "totalFaltas number,"
-					+ "presente boolean"
+					+ "presente boolean not null,"
 					+ "primary key(idAluno)"
 					+ ")");
 			psCreateTable.execute();
@@ -42,7 +42,7 @@ public class AlunoRepositorio {
 	public void inserir(Aluno novo) {
 		try {
 			PreparedStatement psInsert = conexao.prepareStatement(
-					"insert into aluno(idAluno, nome, matricula, totalFaltas, presenca) values (?, ?, ?, ?, ?)");
+					"insert into aluno(idAluno, nome, matricula, totalFaltas, presente) values (?, ?, ?, ?, ?)");
 			psInsert.setInt(1, novo.getIdAluno());
 			psInsert.setString(2, novo.getNome());
 			psInsert.setString(3, novo.getMatricula());
@@ -69,31 +69,6 @@ public class AlunoRepositorio {
 		}
 	}
 	
-	public void atualizarNome(Aluno aluno) {
-		try {
-			PreparedStatement psUpdate = conexao.prepareStatement("update aluno set nome = ? where idAluno = ?");
-			psUpdate.setString(1, aluno.getNome());
-			psUpdate.setInt(2, aluno.getIdAluno());
-			psUpdate.execute();
-			psUpdate.close();
-			System.out.println("Nome alterado");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void atualizarMatricula(Aluno aluno) {
-		try {
-			PreparedStatement psUpdate = conexao.prepareStatement("update aluno set matricula = ? where idAluno = ?");
-			psUpdate.setString(1, aluno.getMatricula());
-			psUpdate.setInt(2, aluno.getIdAluno());
-			psUpdate.execute();
-			psUpdate.close();
-			System.out.println("Matricula atualizada");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void atualizar(Aluno aluno) {
 		try {
@@ -103,6 +78,8 @@ public class AlunoRepositorio {
 			psUpdate.setInt(3, aluno.getFalta());
 			psUpdate.setInt(4, aluno.getIdAluno());
 			psUpdate.setBoolean(5, aluno.isPresente());
+			psUpdate.execute();
+			psUpdate.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -112,13 +89,16 @@ public class AlunoRepositorio {
 		List<Aluno> todos =  new ArrayList<>();
 		try {
 			PreparedStatement psSelect = conexao.prepareStatement(
-					"select idAluno, nome, matricula, presente from aluno");
+					"select idAluno, nome, matricula, presente, totalFaltas from aluno");
 			ResultSet rsTodos = psSelect.executeQuery();
 			while (rsTodos.next()) {
 				Aluno selecionado = new Aluno(
 						rsTodos.getInt("idAluno"), 
 						rsTodos.getString("nome"), 
-						rsTodos.getString("matricula"));
+						rsTodos.getString("matricula"),
+						rsTodos.getBoolean("presente"),
+						rsTodos.getInt("totalFaltas")
+						);
 						todos.add(selecionado);
 			}
 			psSelect.close();
@@ -130,8 +110,21 @@ public class AlunoRepositorio {
 	
 	public void darFalta(Aluno aluno) {
 		System.out.println("Deseja dar falta para o aluno? **fazer verificação");
-		aluno.setPresenca(false);
+		aluno.setPresente(false);
 		aluno.setFalta();
+		try {
+			PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set presente = ?, totalFaltas = ? where idAluno = ?");
+			psUpdate.setBoolean(1, aluno.isPresente());
+			psUpdate.setInt(2, aluno.getFalta());
+			psUpdate.setInt(3, aluno.getIdAluno());
+			psUpdate.execute();
+			psUpdate.close();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
 		
 	}
 	

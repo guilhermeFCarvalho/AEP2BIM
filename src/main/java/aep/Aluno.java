@@ -5,13 +5,15 @@ public class Aluno {
 	private int idAluno;
 	private String nome;
 	private String matricula;
-	private int falta = 0;
-	private boolean presente =  true;
+	private int falta;
+	private boolean presente;
 	
-	public Aluno(int idAluno, String nome, String matricula) {
+	public Aluno(int idAluno, String nome, String matricula, boolean presente, int falta) {
 		this.idAluno = idAluno;
 		this.nome = nome;
 		this.matricula = matricula;
+		this.presente =  presente;
+		this.falta = falta;
 	}
 	
 	
