@@ -51,8 +51,8 @@ public class Aluno {
 
 
 
-	public void setFalta() {
-		this.falta++;
+	public void setFalta(int falta) {
+		this.falta = falta;
 	}
 
 

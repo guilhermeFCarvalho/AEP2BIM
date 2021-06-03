@@ -108,10 +108,13 @@ public class AlunoRepositorio {
 		return todos;
 	}
 	
+	private int getTotalFaltas(){
+		return 0;}
+	
 	public void darFalta(Aluno aluno) {
 		System.out.println("Deseja dar falta para o aluno? **fazer verificação");
 		aluno.setPresente(false);
-		aluno.setFalta();
+		
 		try {
 			PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set presente = ?, totalFaltas = ? where idAluno = ?");
 			psUpdate.setBoolean(1, aluno.isPresente());
