@@ -108,12 +108,36 @@ public class AlunoRepositorio {
 		return todos;
 	}
 	
-	private int getTotalFaltas(){
-		return 0;}
+	public int getTotalFaltas(Aluno aluno){
+		int total = 0;
+		try {
+			PreparedStatement psSelect = conexao.prepareStatement("select totalFaltas from aluno where idAluno = ?");
+			psSelect.setInt(1, aluno.getIdAluno());		
+			ResultSet rsTodos = psSelect.executeQuery();
+			while (rsTodos.next()) {
+				System.out.println("TotalFaltas: " + rsTodos.getInt("totalFaltas") + aluno.getIdAluno());
+				total = rsTodos.getInt("totalFaltas");               
+            }
+			psSelect.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+	
+	
 	
 	public void darFalta(Aluno aluno) {
+		
+		
 		System.out.println("Deseja dar falta para o aluno? **fazer verificação");
 		aluno.setPresente(false);
+		
+		aluno.setFalta(this.getTotalFaltas(aluno)+1);
+		
+		
+		
+	
 		
 		try {
 			PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set presente = ?, totalFaltas = ? where idAluno = ?");

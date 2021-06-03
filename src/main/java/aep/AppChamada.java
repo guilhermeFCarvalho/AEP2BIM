@@ -5,7 +5,7 @@ public class AppChamada {
 	public static void main(String[] args) {
 		
 		AlunoRepositorio a1 =  new AlunoRepositorio();
-		Aluno aluno01 =  new Aluno(1,"Guilherme", "200523782", true , 0);
+		Aluno aluno01 =  new Aluno(1,"Guilherme", "200523782", true , 10);
         Aluno aluno02 =  new Aluno(2,"Willian", "200042982", true , 0);
         Aluno aluno03 =  new Aluno(3,"Maria", "20007982", true ,0);
         Aluno aluno04 =  new Aluno(4,"Joao", "20009075",true , 0);
@@ -21,8 +21,17 @@ public class AppChamada {
 		
 
 		
+       /* int totalA1 = a1.getTotalFaltas(aluno01);
+        int totalA2 = a1.getTotalFaltas(aluno02);
+        
+        System.out.println("a1: " + totalA1 );
+        System.out.println("a2: " + totalA2 );*/
+        
 		apresentarTodos(a1);
 	    
+		a1.darFalta(aluno01);
+		
+		a1.darFalta(aluno02);
 		
 		
 		apresentarTodos(a1);
@@ -35,8 +44,10 @@ public class AppChamada {
 	
 	private static void apresentarTodos(AlunoRepositorio repo){
 		System.out.println("\n_____________________________");
+		int total;
         for (Aluno a : repo.getTodos()) {
         	System.out.println(a.getIdAluno()+ " " + a.getNome() + " " + a.getMatricula() + " " + a.isPresente() + " " + a.getFalta());
+        	
         }
         System.out.println("_____________________________");
 		
