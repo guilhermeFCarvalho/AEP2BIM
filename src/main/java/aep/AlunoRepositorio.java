@@ -126,18 +126,21 @@ public class AlunoRepositorio {
 	}
 	
 	
-	
-	public void darFalta(Aluno aluno) {
+	public void iniciarChamada(){
+		try {
+			PreparedStatement psUpdate = conexao.prepareStatement("update aluno set presente = true");
+			psUpdate.execute();
+			psUpdate.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		
+	}
+	public void darFalta(Aluno aluno) {	
 		System.out.println("Deseja dar falta para o aluno? **fazer verificação");
 		aluno.setPresente(false);
-		
 		aluno.setFalta(this.getTotalFaltas(aluno)+1);
-		
-		
-		
-	
 		
 		try {
 			PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set presente = ?, totalFaltas = ? where idAluno = ?");
