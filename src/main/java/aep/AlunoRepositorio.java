@@ -115,7 +115,6 @@ public class AlunoRepositorio {
 			psSelect.setInt(1, aluno.getIdAluno());		
 			ResultSet rsTodos = psSelect.executeQuery();
 			while (rsTodos.next()) {
-				System.out.println("TotalFaltas: " + rsTodos.getInt("totalFaltas") + aluno.getIdAluno());
 				total = rsTodos.getInt("totalFaltas");               
             }
 			psSelect.close();
@@ -132,31 +131,54 @@ public class AlunoRepositorio {
 			psUpdate.execute();
 			psUpdate.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	public void darFalta(Aluno aluno) {	
-		System.out.println("Deseja dar falta para o aluno? **fazer verificação");
-		aluno.setPresente(false);
-		aluno.setFalta(this.getTotalFaltas(aluno)+1);
+		if(aluno.isPresente()) {
+			aluno.setPresente(false);
+			aluno.setFalta(this.getTotalFaltas(aluno)+1);
 		
-		try {
-			PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set presente = ?, totalFaltas = ? where idAluno = ?");
-			psUpdate.setBoolean(1, aluno.isPresente());
-			psUpdate.setInt(2, aluno.getFalta());
-			psUpdate.setInt(3, aluno.getIdAluno());
-			psUpdate.execute();
-			psUpdate.close();
-		} catch (SQLException e) {
+			try {
+				PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set presente = ?, totalFaltas = ? where idAluno = ?");
+				psUpdate.setBoolean(1, aluno.isPresente());
+				psUpdate.setInt(2, aluno.getFalta());
+				psUpdate.setInt(3, aluno.getIdAluno());
+				psUpdate.execute();
+				psUpdate.close();
+			} catch (SQLException e) {
 			
-			e.printStackTrace();
-		}
-		
-		
-		
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("Aluno já está com falta!");
+		}	
 	}
 	
+	public static void apresentarTodos(AlunoRepositorio repo){
+		System.out.println("\n_____________________________");
+        for (Aluno a : repo.getTodos()) {
+        	if(a.isPresente()) {
+        		System.out.println(a.getIdAluno()+ " " + a.getNome() + " " + a.getMatricula() + " Presente " + a.getFalta());
+        	}else {
+        		System.out.println(a.getIdAluno()+ " " + a.getNome() + " " + a.getMatricula() + " Ausente" + a.getFalta());
+        	}
+        }
+        System.out.println("_____________________________");
+		
+	}
+	public Aluno buscarAluno(int idAluno) {
+		List<Aluno> todos =  this.getTodos();
+		Aluno alunoEscolhido = null;
+		for (Aluno aluno : todos) {
+			if(aluno.getIdAluno() == idAluno) {
+				alunoEscolhido =  aluno;
+			}
+	
+		}
+		return alunoEscolhido;
+		
+	}
 }
 
