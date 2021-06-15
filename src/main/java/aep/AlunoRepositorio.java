@@ -162,7 +162,7 @@ public class AlunoRepositorio {
         	if(a.isPresente()) {
         		System.out.println(a.getIdAluno()+ " " + a.getNome() + " " + a.getMatricula() + " Presente " + a.getFalta());
         	}else {
-        		System.out.println(a.getIdAluno()+ " " + a.getNome() + " " + a.getMatricula() + " Ausente" + a.getFalta());
+        		System.out.println(a.getIdAluno()+ " " + a.getNome() + " " + a.getMatricula() + " Ausente " + a.getFalta());
         	}
         }
         System.out.println("_____________________________");
