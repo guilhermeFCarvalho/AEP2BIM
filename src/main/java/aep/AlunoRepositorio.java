@@ -152,8 +152,21 @@ public class AlunoRepositorio {
 				e.printStackTrace();
 			}
 		}else {
-			System.out.println("Aluno já está com falta!");
-		}	
+			aluno.setPresente(true);
+			aluno.setFalta(this.getTotalFaltas(aluno)-1);
+		
+			try {
+				PreparedStatement psUpdate =  conexao.prepareStatement("update aluno set presente = ?, totalFaltas = ? where idAluno = ?");
+				psUpdate.setBoolean(1, aluno.isPresente());
+				psUpdate.setInt(2, aluno.getFalta());
+				psUpdate.setInt(3, aluno.getIdAluno());
+				psUpdate.execute();
+				psUpdate.close();
+			} catch (SQLException e) {
+			
+				e.printStackTrace();
+		      }
+	     }
 	}
 	
 	public static void apresentarTodos(AlunoRepositorio repo){

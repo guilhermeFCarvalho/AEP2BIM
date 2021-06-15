@@ -7,8 +7,7 @@ import java.util.Scanner;
 public class AppChamada implements InterfaceAlunos {
 	public static void main(String[] args) {
 		
-
-		/*a1.inserir(aluno01);
+		a1.inserir(aluno01);
 		a1.inserir(aluno02);
 		a1.inserir(aluno03);
 		a1.inserir(aluno04);
@@ -17,22 +16,8 @@ public class AppChamada implements InterfaceAlunos {
 		a1.inserir(aluno07);
 		a1.inserir(aluno08);
 		a1.inserir(aluno09);
-		a1.inserir(aluno10);*/
-		
-
-		
-       /* int totalA1 = a1.getTotalFaltas(aluno01);
-        int totalA2 = a1.getTotalFaltas(aluno02);
-        
-        System.out.println("a1: " + totalA1 );
-        System.out.println("a2: " + totalA2 );*/
-        
-		//a1.iniciarChamada();
-		/*AlunoRepositorio.apresentarTodos(a1);
-	    
-		a1.darFalta(aluno01);
-		
-		a1.darFalta(aluno02);*/
+		a1.inserir(aluno10);
+		//Inserção de alunos no banco de dados por finalidade demonstrativa.
 		
 		
 		int opt = -1;
@@ -45,7 +30,7 @@ public class AppChamada implements InterfaceAlunos {
 		
 		do{
 			AlunoRepositorio.apresentarTodos(a1);
-			System.out.println("Insira o número do aluno que deseja dar falta: ");
+			System.out.println("Insira o número do aluno que deseja dar falta ou 0(zero) para sair: ");
 			
 			opt = input.nextInt();
 			switch (opt) {
