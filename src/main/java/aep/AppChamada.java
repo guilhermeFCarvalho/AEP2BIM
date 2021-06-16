@@ -5,8 +5,8 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 public class AppChamada implements InterfaceAlunos {
+	
 	public static void main(String[] args) {
-		
 		a1.inserir(aluno01);
 		a1.inserir(aluno02);
 		a1.inserir(aluno03);
@@ -17,8 +17,7 @@ public class AppChamada implements InterfaceAlunos {
 		a1.inserir(aluno08);
 		a1.inserir(aluno09);
 		a1.inserir(aluno10);
-		//Inserção de alunos no banco de dados por finalidade demonstrativa.
-		
+		//Inserï¿½ï¿½o de alunos no banco de dados por finalidade demonstrativa.
 		
 		int opt = -1;
 		
@@ -30,7 +29,7 @@ public class AppChamada implements InterfaceAlunos {
 		
 		do{
 			AlunoRepositorio.apresentarTodos(a1);
-			System.out.println("Insira o número do aluno que deseja dar falta ou 0(zero) para sair: ");
+			System.out.println("Insira o nï¿½mero do aluno que deseja dar falta ou 0(zero) para sair: ");
 			
 			opt = input.nextInt();
 			switch (opt) {
@@ -41,20 +40,13 @@ public class AppChamada implements InterfaceAlunos {
 				if (a1.buscarAluno(opt) != null) {
 					a1.darFalta(a1.buscarAluno(opt));
 				}else {
-					System.out.println("Aluno não encontrado");
+					System.out.println("Aluno nï¿½o encontrado");
 				}
 				break;
 			}
-						
 		} while (opt != 0);
-		System.out.println("Relatório diário:");
+		input.close();
+		System.out.println("Relatï¿½rio diï¿½rio:");
 		AlunoRepositorio.apresentarTodos(a1);
-		
-		
 	}
-	
-	
-	
-	
-
 }
