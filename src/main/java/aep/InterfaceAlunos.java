@@ -16,7 +16,5 @@ public interface InterfaceAlunos {
     Aluno aluno07 =  new Aluno(7,"Aparecido", "20008660",true , 0);
     Aluno aluno08 =  new Aluno(8,"Arthur", "20006831", true ,0);
     Aluno aluno09 =  new Aluno(9,"Giovana", "20008581",true , 0);
-    Aluno aluno10 =  new Aluno(10,"Fernanda","20003569",true , 0);
-   
-	
+    Aluno aluno10 =  new Aluno(10,"Fernanda","20003569",true , 0);	
 }
